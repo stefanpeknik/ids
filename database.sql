@@ -5,7 +5,6 @@ DROP TABLE OFFENSE;
 
 DROP TABLE PERSON;
 
-DROP TABLE INSURANCE;
 
 
 -- create table for Person that is either Driver (who commits an offense and is licensed to drive a motor vehicle) or Vehicle owner
@@ -36,7 +35,7 @@ CREATE TABLE INSURANCE (
     INSURANCE_STREET VARCHAR2( 100 ) NOT NULL,
     INSURANCE_HOUSE_NUMBER INT NOT NULL,
     INSURANCE_CITY VARCHAR2( 50 ) NOT NULL,
-    INSURANCE_STATE VARCHAR2( 2 ) NOT NULL DEFAULT 'CZ', -- should always be CZ
+    INSURANCE_STATE VARCHAR2( 2 ) DEFAULT 'CZ' NOT NULL, -- should always be CZ
     INSURANCE_ZIP VARCHAR2( 5 ) CONSTRAINT INSURANCE_ZIP_CHECK CHECK (REGEXP_LIKE(INSURANCE_ZIP, '^\\d{5}\\s\\(\\d{3}\\s\\d{2}\\)$'))
 );
 
