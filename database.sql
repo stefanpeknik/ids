@@ -63,7 +63,7 @@ CREATE TABLE PERSON (
     PERSON_SEX VARCHAR2(1) NOT NULL CONSTRAINT PERSON_SEX_CHECK CHECK (PERSON_SEX = 'M' OR PERSON_SEX = 'F'),
     PERSON_GENDER VARCHAR2(50), -- gender is not always male or female, so it is not constrained
     PERSON_INSURANCE_ID INT, -- insurance that that Person is under, can be null
-    PERSON_PERSONAL_ID VARCHAR2(10) NOT NULL CHECK(REGEXP_LIKE(PERSON_PERSONAL_ID, '^\d{2}(0[1-9]|1[0-2]|5[1-9]|6[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/?\d{3,4}$')), -- does not contain / or - in the middle, accepts 9 to 10 digits beacuse of people born before 1985
+    PERSON_PERSONAL_ID VARCHAR2(10) NOT NULL CHECK(REGEXP_LIKE(PERSON_PERSONAL_ID, '^\d{2}(0[1-9]|1[0-2]|5[1-9]|6[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/\d{3,4}$')), -- must contain /
     PERSON_BIRTH_DATE DATE NOT NULL,
     PERSON_STREET VARCHAR2(100) NOT NULL,
     PERSON_HOUSE_NUMBER INT NOT NULL,
