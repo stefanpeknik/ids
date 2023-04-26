@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Create an array of file names
 files=(create_tables.sql insert_values.sql select.sql trigger.sql)
 
@@ -8,7 +10,13 @@ echo "" > xstipe02_xpekni01.sql
 for file in "${files[@]}"
 do
   # Concatenate the contents of each file and append it to idk.sql
+  echo "" >> xstipe02_xpekni01.sql
   echo "/* +--------+ $file +--------+ */" >> xstipe02_xpekni01.sql
+  echo "" >> xstipe02_xpekni01.sql
+  
   cat "$file" >> xstipe02_xpekni01.sql
+
+  echo "" >> xstipe02_xpekni01.sql
   echo "/* ---------- $file ---------- */" >> xstipe02_xpekni01.sql
+  echo "" >> xstipe02_xpekni01.sql
 done
