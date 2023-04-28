@@ -1,5 +1,5 @@
---Tento trigger zkontroluje, zda je věk osoby v tabulce PERSON starší nebo roven 18 let a zda má povinnost mít řidičský průkaz podle zákona.
---Pokud některá z těchto podmínek není splněna, trigger zabrání vložení dalšího záznamu
+-- This trigger checks if the age of a person in the PERSON table is older than or equal to 18 years and if they are required to have a driver's license according to the law
+-- If either of these conditions is not met, the trigger prevents the insertion of another record
 CREATE OR REPLACE TRIGGER PERSON_AGE_LICENSE_TRIGGER BEFORE
     INSERT ON PERSON FOR EACH ROW
 DECLARE
@@ -11,8 +11,7 @@ BEGIN
 END;
 /
 
---Tento trigger počítá počet osob, které jsou pojištěny u každé pojistné smlouvy v tabulce INSURANCE
---a aktualizuje sloupec INSURANCE_PERSON_COUNT v této tabulce
+-- This trigger counts the number of people insured under each insurance policy in the INSURANCE table and updates the INSURANCE_PERSON_COUNT column in this table
 CREATE OR REPLACE TRIGGER PERSON_INSURANCE_COUNT_TRIGGER AFTER
     INSERT OR DELETE OR UPDATE OF PERSON_INSURANCE_ID ON PERSON FOR EACH ROW
 BEGIN
