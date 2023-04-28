@@ -54,7 +54,7 @@ CREATE TABLE INSURANCE (
     INSURANCE_PERSON_COUNT INT DEFAULT 0 NOT NULL,
     INSURANCE_MOTOR_VEHICLE_COUNT INT DEFAULT 0 NOT NULL,
     CONSTRAINT INSURANCE_PERSON_COUNT_CHECK CHECK (INSURANCE_PERSON_COUNT >= 0), -- should always be >= 0
-    CONSTRAINT INSURANCE_VEHICLE_COUNT_CHECK CHECK (INSURANCE_MOTOR_VEHICLE_COUNT >= 0) -- should always be >= 0
+    CONSTRAINT INSURANCE_MOTOR_VEHICLE_COUNT_CHECK CHECK (INSURANCE_MOTOR_VEHICLE_COUNT >= 0) -- should always be >= 0
 );
 
 -- create table for Person that is either Driver (who commits an offense and is licensed to drive a Motor vehicle) or Vehicle owner
