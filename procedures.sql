@@ -50,3 +50,22 @@ BEGIN
     CLOSE vehicle_owner_cursor;
 END;
 /
+
+DECLARE
+    -- Declare variables to store output values
+    vehicle_vin MOTOR_VEHICLE.MOTOR_VEHICLE_VIN%TYPE;
+    vehicle_make MOTOR_VEHICLE.MOTOR_VEHICLE_MAKE%TYPE;
+    vehicle_model MOTOR_VEHICLE.MOTOR_VEHICLE_MODEL%TYPE;
+    vehicle_year MOTOR_VEHICLE.MOTOR_VEHICLE_YEAR%TYPE;
+    vehicle_license_plate MOTOR_VEHICLE.MOTOR_VEHICLE_LICENSE_PLATE%TYPE;
+BEGIN
+    -- Call the procedure and pass the input parameter
+    get_vehicle_info(2, vehicle_vin, vehicle_make, vehicle_model, vehicle_year, vehicle_license_plate);
+    
+    -- Display the output values
+    DBMS_OUTPUT.PUT_LINE('Vehicle VIN: ' || vehicle_vin);
+    DBMS_OUTPUT.PUT_LINE('Vehicle make: ' || vehicle_make);
+    DBMS_OUTPUT.PUT_LINE('Vehicle model: ' || vehicle_model);
+    DBMS_OUTPUT.PUT_LINE('Vehicle year: ' || vehicle_year);
+    DBMS_OUTPUT.PUT_LINE('Vehicle license plate: ' || vehicle_license_plate);
+END;
