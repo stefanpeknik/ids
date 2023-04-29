@@ -21,9 +21,9 @@ EXCEPTION
 END;
 /
 
--- procedure that will get informations about a driver's vehicle based on the driver's ID
-CREATE OR REPLACE PROCEDURE get_driver_vehicle_info(
-    driver_person_id_in IN DRIVER.DRIVER_PERSON_ID%TYPE, -- driver's ID
+-- procedure that will get informations about a driver's vehicle based on the vehicle owner's ID
+CREATE OR REPLACE PROCEDURE get_vehicle_info(
+    vehicle_owner_id_in IN VEHICLE_OWNER.VEHICLE_OWNER_ID%TYPE, -- vehicle owner's ID
 
     vehicle_vin_out OUT MOTOR_VEHICLE.MOTOR_VEHICLE_VIN%TYPE, -- vehicle's VIN
     vehicle_make_out OUT MOTOR_VEHICLE.MOTOR_VEHICLE_MAKE%TYPE, -- vehicle's make
@@ -33,20 +33,20 @@ CREATE OR REPLACE PROCEDURE get_driver_vehicle_info(
 )
 IS
     -- Declare the cursor
-    CURSOR driver_vehicle_cursor IS
+    CURSOR vehicle_owner_cursor IS
         SELECT MV.MOTOR_VEHICLE_MAKE, MV.MOTOR_VEHICLE_MODEL, MV.MOTOR_VEHICLE_YEAR, MV.MOTOR_VEHICLE_LICENSE_PLATE, MV.MOTOR_VEHICLE_VIN
         FROM MOTOR_VEHICLE MV
-        INNER JOIN DRIVER D ON MV.MOTOR_VEHICLE_ID = D.DRIVER_ID
-        WHERE D.DRIVER_ID = driver_person_id_in;
+        INNER JOIN VEHICLE_OWNER VO ON MV.MOTOR_VEHICLE_VEHICLE_OWNER_ID = VO.VEHICLE_OWNER_ID
+        WHERE VO.VEHICLE_OWNER_ID = vehicle_owner_id_in;
 
 BEGIN
     -- Open the cursor
-    OPEN driver_vehicle_cursor;
+    OPEN vehicle_owner_cursor;
     
     -- Fetch the results into the output variables
-    FETCH driver_vehicle_cursor INTO vehicle_vin_out, vehicle_make_out, vehicle_model_out, vehicle_year_out, vehicle_license_plate_out;
+    FETCH vehicle_owner_cursor INTO vehicle_vin_out, vehicle_make_out, vehicle_model_out, vehicle_year_out, vehicle_license_plate_out;
 
     -- Close the cursor
-    CLOSE driver_vehicle_cursor;
+    CLOSE vehicle_owner_cursor;
 END;
 /
