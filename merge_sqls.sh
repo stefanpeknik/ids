@@ -1,10 +1,18 @@
 #!/bin/bash
 
 # Create an array of file names
-# files=(create_tables.sql trigger.sql insert_values.sql select.sql)
-# files=(create_tables.sql trigger.sql insert_values.sql)
-# files=(create_tables.sql trigger.sql)
-files=(create_tables.sql trigger.sql insert_values.sql procedures.sql)
+
+# 1
+#
+
+# 2
+# files=(create_tables.sql)
+
+# 3
+# files=(create_tables.sql insert_values.sql selects.sql)
+
+# 4
+files=(create_tables.sql insert_values.sql triggers.sql procedures.sql index_with_explain_plan.sql grant_access.sql)
 
 # Create an empty file
 echo "" >xstipe02_xpekni01.sql
