@@ -23,7 +23,7 @@ END;
 
 -- procedure that will get informations about a driver's vehicle based on the vehicle owner's ID
 CREATE OR REPLACE PROCEDURE get_vehicle_info(
-    vehicle_owner_id_in IN VEHICLE_OWNER.VEHICLE_OWNER_ID%TYPE, -- vehicle owner's ID
+    vehicle_owner_person_id_in IN VEHICLE_OWNER.VEHICLE_OWNER_PERSON_ID%TYPE, -- vehicle owner's ID
 
     vehicle_vin_out OUT MOTOR_VEHICLE.MOTOR_VEHICLE_VIN%TYPE, -- vehicle's VIN
     vehicle_make_out OUT MOTOR_VEHICLE.MOTOR_VEHICLE_MAKE%TYPE, -- vehicle's make
@@ -34,10 +34,10 @@ CREATE OR REPLACE PROCEDURE get_vehicle_info(
 IS
     -- Declare the cursor
     CURSOR vehicle_owner_cursor IS
-        SELECT MV.MOTOR_VEHICLE_MAKE, MV.MOTOR_VEHICLE_MODEL, MV.MOTOR_VEHICLE_YEAR, MV.MOTOR_VEHICLE_LICENSE_PLATE, MV.MOTOR_VEHICLE_VIN
+        SELECT MV.MOTOR_VEHICLE_VIN, MV.MOTOR_VEHICLE_MAKE, MV.MOTOR_VEHICLE_MODEL, MV.MOTOR_VEHICLE_YEAR, MV.MOTOR_VEHICLE_LICENSE_PLATE
         FROM MOTOR_VEHICLE MV
-        INNER JOIN VEHICLE_OWNER VO ON MV.MOTOR_VEHICLE_VEHICLE_OWNER_ID = VO.VEHICLE_OWNER_ID
-        WHERE VO.VEHICLE_OWNER_ID = vehicle_owner_id_in;
+        INNER JOIN VEHICLE_OWNER VO ON MV.MOTOR_VEHICLE_VEHICLE_OWNER_ID = VO.VEHICLE_OWNER_PERSON_ID
+        WHERE VO.VEHICLE_OWNER_PERSON_ID = vehicle_owner_person_id_in;
 
 BEGIN
     -- Open the cursor
