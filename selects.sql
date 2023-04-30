@@ -96,7 +96,7 @@ WHERE
             VO.VEHICLE_OWNER_PERSON_ID = P.PERSON_ID
     );
 
--- list every motor_vehicle that was used in an offense on date from 23.3.2023 to 24.5.2023 (motor_vehicle_*)
+-- list every motor_vehicle that was used in an offense
 SELECT
     DISTINCT MV.*
 FROM
@@ -109,11 +109,6 @@ WHERE
             OFFENSE_MOTOR_VEHICLE_ID
         FROM
             OFFENSE
-        WHERE
-            OFFENSE_DATE_TIME BETWEEN TO_DATE('2023-03-23',
-            'YYYY-MM-DD')
-            AND TO_DATE('2023-05-24',
-            'YYYY-MM-DD')
     );
 
 WITH CITY_SUMMARY AS (
