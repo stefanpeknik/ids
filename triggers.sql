@@ -1,23 +1,12 @@
 -- This trigger checks if the age of a person in the PERSON table is older than or equal to 18 years and if they are required to have a driver's license according to the law
 -- If either of these conditions is not met, the trigger prevents the insertion of another record
-CREATE OR REPLACE TRIGGER CHECK_DRIVER_AGE_AND_ABILITY BEFORE
-    INSERT ON DRIVER FOR EACH ROW
+CREATE OR REPLACE TRIGGER PERSON_AGE_LICENSE_TRIGGER BEFORE
+    INSERT ON PERSON FOR EACH ROW
 DECLARE
-    V_AGE INT;
+    MIN_DRIVING_AGE CONSTANT INT := 18;
 BEGIN
-    IF (:NEW.DRIVER_CAN_DRIVE = 'Y'
-    AND :NEW.DRIVER_PERSON_ID IS NOT NULL) THEN
-        SELECT
-            PERSON_AGE INTO V_AGE
-        FROM
-            PERSON
-        WHERE
-            PERSON_ID = :NEW.DRIVER_PERSON_ID;
-        IF (V_AGE < 18) THEN
-            RAISE_APPLICATION_ERROR(-20001, 'Driver must be at least 18 years old.');
-        END IF;
-    ELSE
-        RAISE_APPLICATION_ERROR(-20002, 'Driver must have DRIVING_CAN_DRIVE set to ''Y''');
+    IF :NEW.PERSON_AGE < MIN_DRIVING_AGE THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Person must be at least 18 years old or have a valid driver''s license.');
     END IF;
 END;
 /
