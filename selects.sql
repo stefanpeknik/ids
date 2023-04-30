@@ -115,3 +115,34 @@ WHERE
             AND TO_DATE('2023-05-24',
             'YYYY-MM-DD')
     );
+
+WITH CITY_SUMMARY AS (
+    SELECT
+        OFFENSE_LOCATION_CITY,
+        SUM(OFFENSE_FINE)  AS TOTAL_FINE,
+        COUNT(*)           AS OFFENSE_COUNT
+    FROM
+        OFFENSE
+    GROUP BY
+        OFFENSE_LOCATION_CITY
+)
+SELECT
+    OFFENSE_LOCATION_CITY,
+    SUM(CASE
+        WHEN TOTAL_FINE > 2000 THEN
+            1
+        ELSE
+            0
+    END)               AS HIGH_FINE_COUNT,
+    SUM(CASE
+        WHEN TOTAL_FINE <= 2000 THEN
+            1
+        ELSE
+            0
+    END)               AS LOW_FINE_COUNT,
+    SUM(OFFENSE_COUNT) AS TOTAL_OFFENSES,
+    SUM(TOTAL_FINE)    AS TOTAL_FINE
+FROM
+    CITY_SUMMARY
+GROUP BY
+    OFFENSE_LOCATION_CITY;
