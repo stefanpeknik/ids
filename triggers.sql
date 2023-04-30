@@ -1,18 +1,30 @@
 -- This trigger checks if the age of a person in the PERSON table is older than or equal to 18 years and if they are required to have a driver's license according to the law
 -- If either of these conditions is not met, the trigger prevents the insertion of another record
-CREATE OR REPLACE TRIGGER PERSON_AGE_LICENSE_TRIGGER BEFORE
-    INSERT ON PERSON FOR EACH ROW
+CREATE OR REPLACE TRIGGER CHECK_DRIVER_AGE_AND_ABILITY BEFORE
+    INSERT ON DRIVER FOR EACH ROW
 DECLARE
-    MIN_DRIVING_AGE CONSTANT INT := 18;
+    V_AGE INT;
 BEGIN
-    IF :NEW.PERSON_AGE < MIN_DRIVING_AGE THEN
-        RAISE_APPLICATION_ERROR(-20002, 'Person must be at least 18 years old or have a valid driver''s license.');
+    IF (:NEW.DRIVER_CAN_DRIVE = 'Y'
+    AND :NEW.DRIVER_PERSON_ID IS NOT NULL) THEN
+        SELECT
+            PERSON_AGE INTO V_AGE
+        FROM
+            PERSON
+        WHERE
+            PERSON_ID = :NEW.DRIVER_PERSON_ID;
+        IF (V_AGE < 18) THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Driver must be at least 18 years old.');
+        END IF;
+    ELSE
+        RAISE_APPLICATION_ERROR(-20002, 'Driver must have DRIVING_CAN_DRIVE set to ''Y''');
     END IF;
 END;
 /
 
 -- example
 INSERT INTO PERSON (
+    PERSON_ID,
     PERSON_NAME,
     PERSON_SURNAME,
     PERSON_AGE,
@@ -26,6 +38,7 @@ INSERT INTO PERSON (
     PERSON_CITY,
     PERSON_ZIP
 ) VALUES (
+    312312,
     'Alice',
     'Smith',
     15,
@@ -38,6 +51,26 @@ INSERT INTO PERSON (
     456,
     'Prague',
     '12345'
+);
+
+INSERT INTO DRIVER (
+    DRIVER_LICENSE_NUMBER,
+    DRIVER_CAN_DRIVE,
+    DRIVER_PERSON_ID
+) VALUES (
+    'ABCD-1234-EFGH-5678',
+    'Y',
+    312312
+);
+
+INSERT INTO DRIVER (
+    DRIVER_LICENSE_NUMBER,
+    DRIVER_CAN_DRIVE,
+    DRIVER_PERSON_ID
+) VALUES (
+    'ABCD-1234-EFGH-5678',
+    'N',
+    312312
 );
 
 -- This trigger counts the number of people insured under each insurance policy in the INSURANCE table and updates the INSURANCE_PERSON_COUNT column in this table
